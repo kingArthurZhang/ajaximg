@@ -4,15 +4,84 @@
 <meta charset="utf-8">
     <title>index</title>
     <script type="text/javascript" src="jquery.min.js"></script>
+     <style>
+        #main{
+            width: 500px;
+            height: 300px;
+            background: #ccc;
+            border:1px solid;
+            margin: 0 auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -250px;
+            margin-top: -150px;
+            display: none;
+            text-align: center;
+        }
+
+        form{
+            margin-top: 10px;
+        }
+
+        img{
+            margin-top: 30px;
+        }
+
+        #bac{
+            background: #000;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
 </head>
 <body>
-    <button id="btn">Click</button>
+    <div id="bac">
+
+    </div>
+    <div style="width=100%;height: 50px;background: #272822;line-height: 50px;font-size: 20px">
+        <span style="float: right"><a id="aid" href='javascript:;' style="text-decoration: none;color: #fff;margin-right: 20px">Login</a></span>
+    </div>
+    <div id="main">
+            <img src="a.jpg">
+            <form>
+                User:<input type="text" name="username" id="nameid">
+                <br>
+                Pass:<input type="text" name="password" id="passid">
+                <br>
+                <input type="submit" value="Submit" style="margin-top: 10px">
+                <input type="reset" value="Cancel" style="margin-left: 30px;margin-top: 10px">
+            </form>
+    </div>
 </body>
 <script>
+
 $("#btn").click(function(){
-   $.get("index.php",function(data){
+   $.get("index.php",{"id":2},function(data){
         $("body").append(data);
    });
 });
+
+$("a").click(function(){
+    x=$(document).width();
+    y=$(document).height();
+    $("#bac").css({"width":x+"px","height":y+"px","opacity":0.5});
+    $("#main").show(1000);
+    return false;
+});
+
+$("form").submit(function() {
+    var formstr=$(this).serialize();
+    $.post("index.php",formstr,function(data){
+        if(data=="yes"){
+            $("#main").hide(1000);
+            $("#bac").fadeOut(1000);
+            $("#aid").html("Welcome  "+$("#nameid").val())
+        }
+    });
+    return false;
+});
+
 </script>
 </html>
